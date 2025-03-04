@@ -2,10 +2,7 @@ package com.test.lsy.sessiontest1.session;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -31,7 +28,7 @@ public class SessionController {
     }
 
     // 세션 삭제
-    @PostMapping("/session/remove")
+    @DeleteMapping("/session/remove")
     public String removeSession(@RequestParam String key, HttpSession session) {
         session.removeAttribute(key);  // 세션에서 데이터 삭제
         return "Session data removed for key: " + key;
