@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Enumeration;
 
 @RestController
 @Slf4j
@@ -32,5 +33,24 @@ public class SessionController {
     public String removeSession(@RequestParam String key, HttpSession session) {
         session.removeAttribute(key);  // 세션에서 데이터 삭제
         return "Session data removed for key: " + key;
+    }
+
+    // 세션에 저장된 모든 데이터 출력
+    @GetMapping("/session/all")
+    public String getAllSessionData(HttpSession session) {
+        Enumeration<String> attributeNames = session.getAttributeNames(); // 세션에 저장된 모든 속성 이름
+        StringBuilder sessionData = new StringBuilder("All session data:\n");
+
+        while (attributeNames.hasMoreElements()) {
+            String key = attributeNames.nextElement();
+            Object value = session.getAttribute(key);
+            sessionData.append(key).append(" = ").append(value).append("\n");
+        }
+
+        if (sessionData.length() == "All session data:\n".length()) {
+            return "No session data found.";
+        }
+
+        return sessionData.toString();
     }
 }
